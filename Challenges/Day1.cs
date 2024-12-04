@@ -2,7 +2,7 @@
 
 namespace AdventOfCode.Challenges
 {
-    internal class Day1(string path) : Solution<List<List<int>>, int>(path)
+    internal class Day1(string path) : Solution<List<List<int>>>(path)
     {
         internal override List<List<int>> GetInput()
         {
@@ -19,14 +19,34 @@ namespace AdventOfCode.Challenges
                             });
         }
 
-        internal override int Solve()
+        internal override void Solve()
         {   
             var input = GetInput();
+            Console.WriteLine(Part1(input));
+            Console.WriteLine(Part2(input));
+        }
+
+        internal int Part1(List<List<int>> input)
+        {
             input[0].Sort();
             input[1].Sort();
             return input[0]
                         .Select((value, index) => new { value, index })
                         .Aggregate(0, (acc, next) => acc += int.Abs(next.value - input[1][next.index]));
+        }
+
+        internal int Part2(List<List<int>> input)
+        {
+            var counting = input[1].CountBy(x => x).ToDictionary();
+            return input[0]
+                .Aggregate(0, (acc, next) =>
+                {
+                    if (counting.TryGetValue(next, out int times))
+                    {
+                        acc += next * times;
+                    }
+                    return acc;
+                });
         }
     }
 }

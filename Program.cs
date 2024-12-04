@@ -2,4 +2,4 @@
 using AdventOfCode.Challenges;
 
 var Day1 = new Day1("Input\\day1.txt");
-Console.WriteLine(Day1.Solve());
+Day1.Solve();
